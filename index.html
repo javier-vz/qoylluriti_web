@@ -96,6 +96,35 @@
       color: #333;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
+
+#mapControls {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+#mapControls button {
+  border: none;
+  background: #ffffff;
+  color: #222;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+#mapControls button:hover {
+  background: #f0f0f0;
+}
   </style>
 </head>
 
@@ -124,6 +153,12 @@
     Datos capturados mediante GPS/OsmAnd durante trabajo de campo.
     Las elevaciones son aproximadas y deben interpretarse como valores referenciales.
   </div>
+
+<div id="mapControls">
+  <button id="centerRoute">Centrar ruta</button>
+  <button id="zoomIn">+</button>
+  <button id="zoomOut">−</button>
+</div>
 
   <script>
     // ======================================================
@@ -216,22 +251,39 @@
       });
 
       // ======================================================
-      // 5. Vista inicial
-      // ======================================================
+// 5. Centrar automáticamente en la ruta
+// ======================================================
 
-      viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(
-          -71.225,   // longitud aproximada
-          -13.545,   // latitud aproximada
-          15000      // altura de cámara
-        ),
-        orientation: {
-          heading: Cesium.Math.toRadians(285),
-          pitch: Cesium.Math.toRadians(-35),
-          roll: 0
-        },
-        duration: 2.5
-      });
+async function flyToRoutes() {
+  await viewer.flyTo(routes, {
+    duration: 2.5,
+    offset: new Cesium.HeadingPitchRange(
+      Cesium.Math.toRadians(0),
+      Cesium.Math.toRadians(-35),
+      12000
+    )
+  });
+}
+
+flyToRoutes();
+
+// ======================================================
+// 6. Controles de zoom y centrado
+// ======================================================
+
+document.getElementById("centerRoute").addEventListener("click", () => {
+  flyToRoutes();
+});
+
+document.getElementById("zoomIn").addEventListener("click", () => {
+  const height = viewer.camera.positionCartographic.height;
+  viewer.camera.zoomIn(height * 0.35);
+});
+
+document.getElementById("zoomOut").addEventListener("click", () => {
+  const height = viewer.camera.positionCartographic.height;
+  viewer.camera.zoomOut(height * 0.35);
+});
     }
 
     main();
