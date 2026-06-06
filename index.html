@@ -498,6 +498,103 @@
       });
 
       const aboutToggle = document.getElementById("aboutToggle");
+
+      // ======================================================
+// 7. Mostrar altura al hacer clic sobre una ruta
+// ======================================================
+
+function formatMeters(value) {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return "sin dato";
+  }
+  return `${Math.round(value)} m s.n.m.`;
+}
+
+const clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+clickHandler.setInputAction(async function (movement) {
+  const picked = viewer.scene.pick(movement.position);
+
+  // Solo actuar si se hizo clic sobre una entidad con línea
+  if (!Cesium.defined(picked) || !Cesium.defined(picked.id)) {
+    return;
+  }
+
+  const entity = picked.id;
+
+  if (!Cesium.defined(entity.polyline)) {
+    return;
+  }
+
+  const routeName = entity.name || "Ruta ritual";
+
+  let cartesian;
+
+  if (viewer.scene.pickPositionSupported) {
+    cartesian = viewer.scene.pickPosition(movement.position);
+  }
+
+  // Respaldo si pickPosition falla
+  if (!Cesium.defined(cartesian)) {
+    const ray = viewer.camera.getPickRay(movement.position);
+    cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+  }
+
+  if (!Cesium.defined(cartesian)) {
+    return;
+  }
+
+  const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+
+  const lon = Cesium.Math.toDegrees(cartographic.longitude);
+  const lat = Cesium.Math.toDegrees(cartographic.latitude);
+
+  let elevation = cartographic.height;
+
+  // Consultar altura del terreno Cesium para ese punto
+  try {
+    const sampled = await Cesium.sampleTerrainMostDetailed(
+      viewer.terrainProvider,
+      [cartographic]
+    );
+
+    if (sampled && sampled.length > 0 && Number.isFinite(sampled[0].height)) {
+      elevation = sampled[0].height;
+    }
+  } catch (error) {
+    console.warn("No se pudo consultar altura del terreno:", error);
+  }
+
+  const infoEntity = new Cesium.Entity({
+    name: `Altura en ruta`,
+    position: Cesium.Cartesian3.fromDegrees(lon, lat, elevation),
+    description: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.45;">
+        <h2 style="margin-top:0;">${routeName}</h2>
+        <p><strong>Altura aproximada en este punto:</strong> ${formatMeters(elevation)}</p>
+        <p><strong>Latitud:</strong> ${lat.toFixed(6)}</p>
+        <p><strong>Longitud:</strong> ${lon.toFixed(6)}</p>
+        <p>
+          La elevación proviene del terreno 3D de Cesium y debe interpretarse
+          como una referencia aproximada.
+        </p>
+      </div>
+    `,
+    point: {
+      pixelSize: 9,
+      color: Cesium.Color.YELLOW,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      disableDepthTestDistance: Number.POSITIVE_INFINITY
+    }
+  });
+
+  viewer.entities.add(infoEntity);
+  viewer.selectedEntity = infoEntity;
+
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
       const aboutPanel = document.getElementById("aboutPanel");
       const closeAbout = document.getElementById("closeAbout");
 
