@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>Qoyllur Rit'i 2026 - Rutas rituales</title>
 
+  <!-- CesiumJS -->
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
@@ -260,7 +261,7 @@
   <div id="cesiumContainer"></div>
 
   <div id="titleBox">
-    <h1>Qoyllur Rit'i 2026 · Rutas rituales</h1>
+    <h1>Qoyllur Rit'i 2026</h1>
     <div class="subtitle">Una visualización digital de la ruta ritual hacia el santuario y el glaciar Colque Punku</div>
     <p>
       Registro GPS de la peregrinación del Señor de Qoyllur Rit'i 2026, junto con los ukumari.
@@ -273,7 +274,7 @@
   <div id="aboutPanel">
     <button id="closeAbout">×</button>
     <h2>Qoyllur Rit'i</h2>
-    <div class="tagline">Patrimonio vivo y movilidad ritual en los Andes del Cusco</div>
+    <div class="tagline">Primera capa espacial de un proyecto que vincula rutas de campo, lugares sagrados y eventos rituales mediante una ontología RDF/OWL.</div>
 
     <p>
       Cada año, decenas de miles de peregrinos ascienden hasta el santuario del
@@ -365,13 +366,10 @@
 
     async function main() {
       const viewer = new Cesium.Viewer("cesiumContainer", {
-        imageryProvider: await Cesium.createWorldImageryAsync({
-          style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
-        }),
         terrainProvider: await Cesium.createWorldTerrainAsync(),
         timeline: false,
         animation: false,
-        baseLayerPicker: false,
+        baseLayerPicker: true,
         geocoder: true,
         homeButton: true,
         sceneModePicker: true,
@@ -382,7 +380,6 @@
       });
 
       viewer.scene.globe.depthTestAgainstTerrain = true;
-      viewer.scene.globe.enableLighting = true;
 
       const routes = await Cesium.GeoJsonDataSource.load("routes.geojson", {
         clampToGround: true
