@@ -45,7 +45,7 @@
 
     #legend {
       position: absolute;
-      top: 18px;
+      top: 82px;
       right: 18px;
       z-index: 10;
       background: rgba(255, 255, 255, 0.88);
@@ -175,6 +175,8 @@
       const viewer = new Cesium.Viewer("cesiumContainer", {
         terrainProvider: await Cesium.createWorldTerrainAsync(),
         timeline: false,
+	infoBox: true,
+	selectionIndicator: true,
         animation: false,
         baseLayerPicker: true,
         geocoder: true,
@@ -202,6 +204,21 @@
       routes.entities.values.forEach((entity) => {
         const name = entity.properties.name.getValue();
 
+	entity.name = name;
+
+entity.description = `
+  <div style="font-family: Arial, sans-serif; line-height: 1.45;">
+    <h2 style="margin-top:0;">${name}</h2>
+    <p>
+      Tramo GPS registrado durante la peregrinación de Qoyllur Rit'i 2026.
+    </p>
+    <p>
+      Esta línea representa una sección de movilidad ritual sobre terreno
+      de alta montaña.
+    </p>
+  </div>
+`;
+
         if (name.includes("Mahuayani")) {
           entity.polyline.material = Cesium.Color.ORANGE;
           entity.polyline.width = 5;
@@ -225,30 +242,51 @@
       await viewer.dataSources.add(points);
 
       points.entities.values.forEach((entity) => {
-        const name = entity.properties.name.getValue();
+  const name = entity.properties.name.getValue();
+  const type = entity.properties.type
+    ? entity.properties.type.getValue()
+    : "punto";
+  const elevation = entity.properties.elevation_m
+    ? Math.round(entity.properties.elevation_m.getValue())
+    : "sin dato";
 
-        entity.point = new Cesium.PointGraphics({
-          pixelSize: 11,
-          color: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 2,
-          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
-        });
+  entity.name = name;
 
-        entity.label = new Cesium.LabelGraphics({
-          text: name,
-          font: "15px Arial",
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -18),
-          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
-        });
-      });
+  entity.description = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.45;">
+      <h2 style="margin-top:0;">${name}</h2>
+      <p><strong>Tipo:</strong> ${type}</p>
+      <p><strong>Elevación aproximada:</strong> ${elevation} m s.n.m.</p>
+      <p>
+        Este punto forma parte del registro GPS de la ruta ritual
+        Mahuayani–Santuario–Colque Punku durante la peregrinación
+        de Qoyllur Rit'i 2026.
+      </p>
+    </div>
+  `;
+
+  entity.point = new Cesium.PointGraphics({
+    pixelSize: 11,
+    color: Cesium.Color.WHITE,
+    outlineColor: Cesium.Color.BLACK,
+    outlineWidth: 2,
+    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+    disableDepthTestDistance: Number.POSITIVE_INFINITY
+  });
+
+  entity.label = new Cesium.LabelGraphics({
+    text: name,
+    font: "15px Arial",
+    fillColor: Cesium.Color.WHITE,
+    outlineColor: Cesium.Color.BLACK,
+    outlineWidth: 3,
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+    pixelOffset: new Cesium.Cartesian2(0, -18),
+    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+    disableDepthTestDistance: Number.POSITIVE_INFINITY
+  });
+});
 
       // ======================================================
 // 5. Centrar automáticamente en la ruta
