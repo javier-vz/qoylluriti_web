@@ -137,20 +137,17 @@
     }
 
     #aboutToggle {
-      position: absolute;
-      top: 154px;
-      left: 18px;
-      z-index: 11;
-      border: none;
-      background: rgba(35, 35, 35, 0.88);
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      padding: 9px 13px;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+  margin-top: 12px;
+  border: none;
+  background: rgba(35, 35, 35, 0.90);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 9px 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
 
     #aboutToggle:hover {
       background: rgba(0, 0, 0, 0.90);
@@ -158,7 +155,7 @@
 
     #aboutPanel {
       position: absolute;
-      top: 200px;
+      top: 230px;
       left: 18px;
       z-index: 12;
       width: 440px;
@@ -260,14 +257,15 @@
 <body>
   <div id="cesiumContainer"></div>
 
-  <div id="titleBox">
-    <h1>Qoyllur Rit'i 2026</h1>
-    <div class="subtitle">Una visualización digital de la ruta ritual hacia el santuario y el glaciar Colque Punku</div>
-    <p>
-      Registro GPS de la peregrinación del Señor de Qoyllur Rit'i 2026, junto con los ukumari.
-      Esta visualización presenta una primera capa de movilidad ritual en alta montaña.
-    </p>
-  </div>
+ <div id="titleBox">
+  <h1>Qoyllur Rit'i 2026</h1>
+  <div class="subtitle">Una visualización digital de la ruta ritual hacia el santuario y el glaciar Colque Punku</div>
+  <p>
+    Registro GPS de la peregrinación del Señor de Qoyllur Rit'i 2026, junto con los ukumari.
+    Esta visualización presenta una primera capa de movilidad ritual en alta montaña.
+  </p>
+  <button id="aboutToggle">Sobre el proyecto</button>
+</div>
 
   <button id="aboutToggle">Sobre el proyecto</button>
 
