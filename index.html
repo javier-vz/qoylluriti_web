@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Qoyllur Rit'i 2026 - Rutas rituales</title>
+
+  <!-- CesiumJS -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+
+  <style>
+    html, body, #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #titleBox {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 14px 18px;
+      max-width: 460px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    #titleBox h1 {
+      margin: 0 0 6px 0;
+      font-size: 23px;
+      color: #222;
+    }
+
+    #titleBox p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    #legend {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 12px 16px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      font-size: 14px;
+      color: #222;
+    }
+
+    .legend-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .legend-item {
+      margin: 6px 0;
+    }
+
+    .line {
+      display: inline-block;
+      width: 30px;
+      height: 5px;
+      margin-right: 8px;
+      vertical-align: middle;
+      border-radius: 3px;
+    }
+
+    .orange {
+      background: #ff6b2b;
+    }
+
+    .blue {
+      background: #1f78ff;
+    }
+
+    #noteBox {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.84);
+      padding: 10px 14px;
+      max-width: 540px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #333;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+
+  <div id="titleBox">
+    <h1>Ruta Mahuayani–Santuario–Colque Punku</h1>
+    <p>
+      Registro GPS de la peregrinación de Qoyllur Rit'i 2026.
+      Visualización preliminar de movilidad ritual y ascenso altitudinal.
+    </p>
+  </div>
+
+  <div id="legend">
+    <div class="legend-title">Leyenda</div>
+    <div class="legend-item">
+      <span class="line orange"></span>Mahuayani → Santuario
+    </div>
+    <div class="legend-item">
+      <span class="line blue"></span>Santuario → Colque Punku
+    </div>
+  </div>
+
+  <div id="noteBox">
+    Datos capturados mediante GPS/OsmAnd durante trabajo de campo.
+    Las elevaciones son aproximadas y deben interpretarse como valores referenciales.
+  </div>
+
+  <script>
+    // ======================================================
+    // 1. PEGA TU TOKEN DE CESIUM AQUÍ
+    // ======================================================
+
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYjhiY2E4Zi0zNGRmLTQ0Y2EtYWFmNC0xYzA5OGRhZTAwZGYiLCJpZCI6NDQxMTY5LCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODA3ODQ0MTN9.8F3xvubQOI8u0xZJgDSjyoT5nEgoIaC8YbdIZy3hxA8";
+
+    // ======================================================
+    // 2. Inicializar Cesium
+    // ======================================================
+
+    async function main() {
+      const viewer = new Cesium.Viewer("cesiumContainer", {
+        terrainProvider: await Cesium.createWorldTerrainAsync(),
+        timeline: false,
+        animation: false,
+        baseLayerPicker: true,
+        geocoder: true,
+        homeButton: true,
+        sceneModePicker: true,
+        navigationHelpButton: false,
+        fullscreenButton: true
+      });
+
+      viewer.scene.globe.depthTestAgainstTerrain = true;
+
+      // Mejor iluminación del relieve
+      viewer.scene.globe.enableLighting = true;
+
+      // ======================================================
+      // 3. Cargar rutas desde routes.geojson
+      // ======================================================
+
+      const routes = await Cesium.GeoJsonDataSource.load("routes.geojson", {
+        clampToGround: true
+      });
+
+      await viewer.dataSources.add(routes);
+
+      routes.entities.values.forEach((entity) => {
+        const name = entity.properties.name.getValue();
+
+        if (name.includes("Mahuayani")) {
+          entity.polyline.material = Cesium.Color.ORANGE;
+          entity.polyline.width = 5;
+        } else if (name.includes("Colque")) {
+          entity.polyline.material = Cesium.Color.DODGERBLUE;
+          entity.polyline.width = 5;
+        } else {
+          entity.polyline.material = Cesium.Color.WHITE;
+          entity.polyline.width = 4;
+        }
+      });
+
+      // ======================================================
+      // 4. Cargar puntos desde points.geojson
+      // ======================================================
+
+      const points = await Cesium.GeoJsonDataSource.load("points.geojson", {
+        clampToGround: true
+      });
+
+      await viewer.dataSources.add(points);
+
+      points.entities.values.forEach((entity) => {
+        const name = entity.properties.name.getValue();
+
+        entity.point = new Cesium.PointGraphics({
+          pixelSize: 11,
+          color: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        });
+
+        entity.label = new Cesium.LabelGraphics({
+          text: name,
+          font: "15px Arial",
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -18),
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        });
+      });
+
+      // ======================================================
+      // 5. Vista inicial
+      // ======================================================
+
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(
+          -71.225,   // longitud aproximada
+          -13.545,   // latitud aproximada
+          15000      // altura de cámara
+        ),
+        orientation: {
+          heading: Cesium.Math.toRadians(285),
+          pitch: Cesium.Math.toRadians(-35),
+          roll: 0
+        },
+        duration: 2.5
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>

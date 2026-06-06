@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mahuayani | 4114 m s.n.m.",
+        "type": "inicio",
+        "elevation_m": 4113.6
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2337517,
+          -13.6070183,
+          4113.6
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Santuario | 4665 m s.n.m.",
+        "type": "santuario",
+        "elevation_m": 4665.1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2384246,
+          -13.5488165,
+          4665.1
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Colque Punku | 5053 m s.n.m.",
+        "type": "alta_montaña",
+        "elevation_m": 5053.4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2359624,
+          -13.5360989,
+          5053.4
+        ]
+      }
+    }
+  ]
+}
