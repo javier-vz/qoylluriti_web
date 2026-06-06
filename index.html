@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Qoyllur Rit'i 2026 - Rutas rituales</title>
 
-  <!-- CesiumJS -->
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
@@ -23,23 +22,32 @@
       top: 18px;
       left: 18px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.88);
-      padding: 14px 18px;
-      max-width: 460px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      background: rgba(255, 255, 255, 0.90);
+      padding: 16px 20px;
+      max-width: 590px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
     }
 
     #titleBox h1 {
       margin: 0 0 6px 0;
-      font-size: 23px;
+      font-size: 25px;
       color: #222;
+      line-height: 1.15;
+    }
+
+    #titleBox .subtitle {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #555;
+      font-weight: bold;
+      line-height: 1.35;
     }
 
     #titleBox p {
       margin: 0;
       font-size: 14px;
-      line-height: 1.4;
+      line-height: 1.42;
       color: #333;
     }
 
@@ -48,9 +56,9 @@
       top: 82px;
       right: 18px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.90);
       padding: 12px 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.25);
       font-size: 14px;
       color: #222;
@@ -63,6 +71,7 @@
 
     .legend-item {
       margin: 6px 0;
+      white-space: nowrap;
     }
 
     .line {
@@ -89,42 +98,161 @@
       z-index: 10;
       background: rgba(255, 255, 255, 0.84);
       padding: 10px 14px;
-      max-width: 540px;
-      border-radius: 6px;
+      max-width: 660px;
+      border-radius: 8px;
       font-size: 13px;
       line-height: 1.4;
       color: #333;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
 
-#mapControls {
-  position: absolute;
-  bottom: 18px;
-  right: 18px;
-  z-index: 10;
-  display: flex;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.88);
-  padding: 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-}
+    #mapControls {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
 
-#mapControls button {
-  border: none;
-  background: #ffffff;
-  color: #222;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-}
+    #mapControls button {
+      border: none;
+      background: #ffffff;
+      color: #222;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
 
-#mapControls button:hover {
-  background: #f0f0f0;
-}
+    #mapControls button:hover {
+      background: #f0f0f0;
+    }
+
+    #aboutToggle {
+      position: absolute;
+      top: 154px;
+      left: 18px;
+      z-index: 11;
+      border: none;
+      background: rgba(35, 35, 35, 0.88);
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 9px 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    #aboutToggle:hover {
+      background: rgba(0, 0, 0, 0.90);
+    }
+
+    #aboutPanel {
+      position: absolute;
+      top: 200px;
+      left: 18px;
+      z-index: 12;
+      width: 440px;
+      max-height: 62vh;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.95);
+      color: #222;
+      padding: 18px 20px;
+      border-radius: 8px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.32);
+      display: none;
+    }
+
+    #aboutPanel h2 {
+      margin: 0 0 6px 0;
+      font-size: 21px;
+    }
+
+    #aboutPanel h3 {
+      margin: 18px 0 6px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    #aboutPanel p {
+      font-size: 13.5px;
+      line-height: 1.48;
+      margin: 8px 0;
+    }
+
+    #aboutPanel .tagline {
+      font-size: 13px;
+      color: #555;
+      font-weight: bold;
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .entityTags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .entityTags span {
+      background: #eeeeee;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 12px;
+      border: 1px solid #d0d0d0;
+    }
+
+    .techBox {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-left: 4px solid #444;
+      background: #f5f5f5;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    #closeAbout {
+      float: right;
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      cursor: pointer;
+      color: #444;
+    }
+
+    #closeAbout:hover {
+      color: #000;
+    }
+
+    @media (max-width: 800px) {
+      #titleBox {
+        max-width: calc(100vw - 40px);
+      }
+
+      #legend {
+        top: auto;
+        bottom: 92px;
+        right: 18px;
+      }
+
+      #aboutPanel {
+        width: calc(100vw - 76px);
+        max-height: 58vh;
+      }
+
+      #noteBox {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -132,11 +260,82 @@
   <div id="cesiumContainer"></div>
 
   <div id="titleBox">
-    <h1>Ruta Mahuayani–Santuario–Colque Punku</h1>
+    <h1>Qoyllur Rit'i 2026 · Rutas rituales</h1>
+    <div class="subtitle">Una visualización digital de la ruta ritual hacia el santuario y el glaciar Colque Punku</div>
     <p>
       Registro GPS de la peregrinación del Señor de Qoyllur Rit'i 2026, junto con los ukumari.
-      Visualización preliminar de movilidad.
+      Esta visualización presenta una primera capa de movilidad ritual en alta montaña.
     </p>
+  </div>
+
+  <button id="aboutToggle">Sobre el proyecto</button>
+
+  <div id="aboutPanel">
+    <button id="closeAbout">×</button>
+    <h2>Qoyllur Rit'i</h2>
+    <div class="tagline">Patrimonio vivo y movilidad ritual en los Andes del Cusco</div>
+
+    <p>
+      Cada año, decenas de miles de peregrinos ascienden hasta el santuario del
+      Señor de Qoyllur Rit'i, en los Andes del Cusco, para participar en una de
+      las festividades religiosas más importantes del mundo andino.
+    </p>
+
+    <p>
+      Durante varios días, naciones de distintas comunidades danzan, realizan
+      rituales de altura y recorren rutas sagradas vinculadas al Apu Ausangate,
+      montaña tutelar del Cusco.
+    </p>
+
+    <h3>La festividad</h3>
+    <p>
+      El Señor de Qoyllur Rit'i es una peregrinación andina que sincretiza el
+      catolicismo colonial con tradiciones ancestrales vinculadas al Apu
+      Ausangate. Las naciones participantes expresan su identidad ritual mediante
+      danzas, vestimentas ceremoniales, objetos sagrados y prácticas transmitidas
+      de generación en generación.
+    </p>
+
+    <p>
+      Entre sus momentos más emblemáticos se encuentra la subida nocturna de los
+      ukumari al glaciar Colque Punku, así como la Lomada, una caminata ritual
+      prolongada que recorre distintos hitos sagrados de la ruta de peregrinación.
+    </p>
+
+    <h3>El proyecto</h3>
+    <p>
+      Esta visualización forma parte de una investigación sobre grafos de
+      conocimiento para el patrimonio inmaterial peruano. El objetivo es modelar
+      eventos rituales, lugares sagrados, participantes, objetos ceremoniales y
+      rutas de peregrinación mediante una ontología en OWL/RDF.
+    </p>
+
+    <p>
+      El proyecto integra trabajo de campo etnográfico, datos GPS, documentación
+      visual y modelos de consulta semántica para construir una infraestructura
+      digital orientada a la preservación, análisis y consulta del conocimiento
+      cultural.
+    </p>
+
+    <h3>Entidades culturales modeladas</h3>
+    <div class="entityTags">
+      <span>Evento ritual</span>
+      <span>Lugar sagrado</span>
+      <span>Apu</span>
+      <span>Nación</span>
+      <span>Ukumari</span>
+      <span>Objeto ritual</span>
+      <span>Danza</span>
+      <span>Vestimenta</span>
+      <span>Ruta ritual</span>
+    </div>
+
+    <div class="techBox">
+      <strong>Proyecto:</strong> RAG, Knowledge Graph y patrimonio inmaterial<br>
+      <strong>Ontología:</strong> OWL 2, Turtle, RDF/RDFS y geo:lat/long<br>
+      <strong>Visualización:</strong> CesiumJS, GeoJSON y GitHub Pages<br>
+      <strong>Datos:</strong> trabajo de campo, Nación Paucartambo y Qoyllur Rit'i
+    </div>
   </div>
 
   <div id="legend">
@@ -152,48 +351,38 @@
   <div id="noteBox">
     Datos capturados mediante GPS/OsmAnd durante trabajo de campo.
     Las elevaciones son aproximadas y deben interpretarse como valores referenciales.
+    Esta web es una visualización preliminar dentro de un proyecto más amplio sobre grafos de conocimiento para patrimonio inmaterial peruano.
   </div>
 
-<div id="mapControls">
-  <button id="centerRoute">Centrar ruta</button>
-  <button id="zoomIn">+</button>
-  <button id="zoomOut">−</button>
-</div>
+  <div id="mapControls">
+    <button id="centerRoute">Centrar ruta</button>
+    <button id="zoomIn">+</button>
+    <button id="zoomOut">−</button>
+  </div>
 
   <script>
-    // ======================================================
-    // 1. PEGA TU TOKEN DE CESIUM AQUÍ
-    // ======================================================
-
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYjhiY2E4Zi0zNGRmLTQ0Y2EtYWFmNC0xYzA5OGRhZTAwZGYiLCJpZCI6NDQxMTY5LCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODA3ODQ0MTN9.8F3xvubQOI8u0xZJgDSjyoT5nEgoIaC8YbdIZy3hxA8";
-
-    // ======================================================
-    // 2. Inicializar Cesium
-    // ======================================================
 
     async function main() {
       const viewer = new Cesium.Viewer("cesiumContainer", {
+        imageryProvider: await Cesium.createWorldImageryAsync({
+          style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
+        }),
         terrainProvider: await Cesium.createWorldTerrainAsync(),
         timeline: false,
-	infoBox: true,
-	selectionIndicator: true,
         animation: false,
-        baseLayerPicker: true,
+        baseLayerPicker: false,
         geocoder: true,
         homeButton: true,
         sceneModePicker: true,
         navigationHelpButton: false,
-        fullscreenButton: true
+        fullscreenButton: true,
+        infoBox: true,
+        selectionIndicator: true
       });
 
       viewer.scene.globe.depthTestAgainstTerrain = true;
-
-      // Mejor iluminación del relieve
       viewer.scene.globe.enableLighting = true;
-
-      // ======================================================
-      // 3. Cargar rutas desde routes.geojson
-      // ======================================================
 
       const routes = await Cesium.GeoJsonDataSource.load("routes.geojson", {
         clampToGround: true
@@ -204,20 +393,21 @@
       routes.entities.values.forEach((entity) => {
         const name = entity.properties.name.getValue();
 
-	entity.name = name;
+        entity.name = name;
 
-entity.description = `
-  <div style="font-family: Arial, sans-serif; line-height: 1.45;">
-    <h2 style="margin-top:0;">${name}</h2>
-    <p>
-      Tramo GPS registrado durante la peregrinación de Qoyllur Rit'i 2026.
-    </p>
-    <p>
-      Esta línea representa una sección de movilidad ritual sobre terreno
-      de alta montaña.
-    </p>
-  </div>
-`;
+        entity.description = `
+          <div style="font-family: Arial, sans-serif; line-height: 1.45;">
+            <h2 style="margin-top:0;">${name}</h2>
+            <p>
+              Tramo GPS registrado durante la peregrinación del Señor de Qoyllur Rit'i 2026.
+            </p>
+            <p>
+              Esta línea representa una sección de movilidad ritual sobre terreno de alta montaña.
+              Forma parte de una investigación sobre rutas rituales, grafos de conocimiento y
+              patrimonio inmaterial peruano.
+            </p>
+          </div>
+        `;
 
         if (name.includes("Mahuayani")) {
           entity.polyline.material = Cesium.Color.ORANGE;
@@ -231,10 +421,6 @@ entity.description = `
         }
       });
 
-      // ======================================================
-      // 4. Cargar puntos desde points.geojson
-      // ======================================================
-
       const points = await Cesium.GeoJsonDataSource.load("points.geojson", {
         clampToGround: true
       });
@@ -242,86 +428,96 @@ entity.description = `
       await viewer.dataSources.add(points);
 
       points.entities.values.forEach((entity) => {
-  const name = entity.properties.name.getValue();
-  const type = entity.properties.type
-    ? entity.properties.type.getValue()
-    : "punto";
-  const elevation = entity.properties.elevation_m
-    ? Math.round(entity.properties.elevation_m.getValue())
-    : "sin dato";
+        const name = entity.properties.name.getValue();
 
-  entity.name = name;
+        const type = entity.properties.type
+          ? entity.properties.type.getValue()
+          : "punto";
 
-  entity.description = `
-    <div style="font-family: Arial, sans-serif; line-height: 1.45;">
-      <h2 style="margin-top:0;">${name}</h2>
-      <p><strong>Tipo:</strong> ${type}</p>
-      <p><strong>Elevación aproximada:</strong> ${elevation} m s.n.m.</p>
-      <p>
-        Este punto forma parte del registro GPS de la ruta ritual
-        Mahuayani–Santuario–Colque Punku durante la peregrinación
-        de Qoyllur Rit'i 2026.
-      </p>
-    </div>
-  `;
+        const elevation = entity.properties.elevation_m
+          ? Math.round(entity.properties.elevation_m.getValue())
+          : "sin dato";
 
-  entity.point = new Cesium.PointGraphics({
-    pixelSize: 11,
-    color: Cesium.Color.WHITE,
-    outlineColor: Cesium.Color.BLACK,
-    outlineWidth: 2,
-    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-    disableDepthTestDistance: Number.POSITIVE_INFINITY
-  });
+        entity.name = name;
 
-  entity.label = new Cesium.LabelGraphics({
-    text: name,
-    font: "15px Arial",
-    fillColor: Cesium.Color.WHITE,
-    outlineColor: Cesium.Color.BLACK,
-    outlineWidth: 3,
-    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-    pixelOffset: new Cesium.Cartesian2(0, -18),
-    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-    disableDepthTestDistance: Number.POSITIVE_INFINITY
-  });
-});
+        entity.description = `
+          <div style="font-family: Arial, sans-serif; line-height: 1.45;">
+            <h2 style="margin-top:0;">${name}</h2>
+            <p><strong>Tipo:</strong> ${type}</p>
+            <p><strong>Elevación aproximada:</strong> ${elevation} m s.n.m.</p>
+            <p>
+              Este punto forma parte del registro GPS de la ruta ritual
+              Mahuayani–Santuario–Colque Punku durante la peregrinación
+              del Señor de Qoyllur Rit'i 2026.
+            </p>
+            <p>
+              En una etapa posterior, este punto podrá vincularse directamente
+              con entidades del grafo RDF/OWL de la festividad.
+            </p>
+          </div>
+        `;
 
-      // ======================================================
-// 5. Centrar automáticamente en la ruta
-// ======================================================
+        entity.point = new Cesium.PointGraphics({
+          pixelSize: 11,
+          color: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        });
 
-async function flyToRoutes() {
-  await viewer.flyTo(routes, {
-    duration: 2.5,
-    offset: new Cesium.HeadingPitchRange(
-      Cesium.Math.toRadians(0),
-      Cesium.Math.toRadians(-35),
-      12000
-    )
-  });
-}
+        entity.label = new Cesium.LabelGraphics({
+          text: name,
+          font: "15px Arial",
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -18),
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        });
+      });
 
-flyToRoutes();
+      async function flyToRoutes() {
+        await viewer.flyTo(routes, {
+          duration: 2.5,
+          offset: new Cesium.HeadingPitchRange(
+            Cesium.Math.toRadians(0),
+            Cesium.Math.toRadians(-35),
+            12000
+          )
+        });
+      }
 
-// ======================================================
-// 6. Controles de zoom y centrado
-// ======================================================
+      flyToRoutes();
 
-document.getElementById("centerRoute").addEventListener("click", () => {
-  flyToRoutes();
-});
+      document.getElementById("centerRoute").addEventListener("click", () => {
+        flyToRoutes();
+      });
 
-document.getElementById("zoomIn").addEventListener("click", () => {
-  const height = viewer.camera.positionCartographic.height;
-  viewer.camera.zoomIn(height * 0.35);
-});
+      document.getElementById("zoomIn").addEventListener("click", () => {
+        const height = viewer.camera.positionCartographic.height;
+        viewer.camera.zoomIn(height * 0.35);
+      });
 
-document.getElementById("zoomOut").addEventListener("click", () => {
-  const height = viewer.camera.positionCartographic.height;
-  viewer.camera.zoomOut(height * 0.35);
-});
+      document.getElementById("zoomOut").addEventListener("click", () => {
+        const height = viewer.camera.positionCartographic.height;
+        viewer.camera.zoomOut(height * 0.35);
+      });
+
+      const aboutToggle = document.getElementById("aboutToggle");
+      const aboutPanel = document.getElementById("aboutPanel");
+      const closeAbout = document.getElementById("closeAbout");
+
+      aboutToggle.addEventListener("click", () => {
+        aboutPanel.style.display = "block";
+      });
+
+      closeAbout.addEventListener("click", () => {
+        aboutPanel.style.display = "none";
+      });
     }
 
     main();
